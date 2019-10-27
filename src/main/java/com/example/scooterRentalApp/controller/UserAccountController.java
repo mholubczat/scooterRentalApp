@@ -13,17 +13,10 @@ import org.springframework.web.bind.annotation.*;
 public class UserAccountController {
 
     private UserAccountService userAccountService;
-    private DisplayBalanceService displayBalanceService;
-    private DisplayRentedScooterService displayRentedScooterService;
-    private RemoveAccountService removeAccountService;
-    private UpdateEmailService updateEmailService;
 
-    public UserAccountController(UserAccountService userAccountService, DisplayBalanceService displayBalanceService, DisplayRentedScooterService displayRentedScooterService, RemoveAccountService removeAccountService, UpdateEmailService updateEmailService) {
+
+    public UserAccountController(UserAccountService userAccountService) {
         this.userAccountService = userAccountService;
-        this.displayBalanceService = displayBalanceService;
-        this.displayRentedScooterService = displayRentedScooterService;
-        this.removeAccountService = removeAccountService;
-        this.updateEmailService = updateEmailService;
     }
 
     @PostMapping(value = "/create", produces = "application/json")
@@ -45,21 +38,21 @@ public class UserAccountController {
     public ResponseEntity<BasicResponse> displayBalance(
             @PathVariable Long userId
     ){
-        return displayBalanceService.displayBalance(userId);
+        return userAccountService.displayBalance(userId);
     }
 
     @GetMapping(value="/scooter", produces = "application/json")
     public ResponseEntity<BasicResponse> displayScooter(
             @RequestParam String userEmail
     ){
-        return displayRentedScooterService.displayRentedScooter(userEmail);
+        return userAccountService.displayRentedScooter(userEmail);
     }
 
     @DeleteMapping(value = "/remove", produces = "application/json")
     public ResponseEntity<BasicResponse> removeUser(
             @RequestParam String userEmail
     ) {
-        return removeAccountService.removeAccount(userEmail);
+        return userAccountService.removeAccount(userEmail);
     }
 
     @PutMapping(value = "/{userId}/update", produces = "application/json")
@@ -67,6 +60,6 @@ public class UserAccountController {
             @PathVariable Long userId,
             @RequestParam String userEmail
     ) {
-        return updateEmailService.updateEmail(userId, userEmail);
+        return userAccountService.updateEmail(userId, userEmail);
     }
 }

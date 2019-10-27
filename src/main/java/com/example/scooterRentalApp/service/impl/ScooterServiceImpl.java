@@ -1,5 +1,6 @@
 package com.example.scooterRentalApp.service.impl;
 
+import com.example.scooterRentalApp.api.BasicResponse;
 import com.example.scooterRentalApp.api.request.AddScooterRequest;
 import com.example.scooterRentalApp.api.response.AddScooterResponse;
 import com.example.scooterRentalApp.common.MsgSource;
@@ -45,7 +46,28 @@ public class ScooterServiceImpl extends AbstractCommonService implements Scooter
         Scooter addedScooter = addScooterToDataSource(request, scooterDock);
         return ResponseEntity.ok(new AddScooterResponse(msgSource.OK003, addedScooter.getId()));
     }
+    @Override
+    @Transactional
+    public ResponseEntity<BasicResponse> undockScooter(Long scooterId) {
+        Scooter scooter = extractScooterFromRepository(scooterId);
+        checkScooterIsRented(scooter);
+        scooter.setScooterDock(null);
+        scooterRepository.save(scooter);
+        return ResponseEntity.ok(BasicResponse.of(msgSource.OK010));
+    }
+    private Scooter extractScooterFromRepository(Long scooterId) {
+        Optional<Scooter> optionalScooter = scooterRepository.findById(scooterId);
+        if (!optionalScooter.isPresent()) {
+            throw new CommonConflictException(msgSource.ERR010);
+        }
+        return optionalScooter.get();
+    }
 
+    private void checkScooterIsRented(Scooter scooter) {
+        if (scooter.getUserAccount() != null) {
+            throw new CommonConflictException(msgSource.ERR015);
+        }
+    }
     private void validateAddScooterRequest(AddScooterRequest request) {
         if (isNullOrEmpty(request.getModelName())
                 || isNull(request.getRentalPrice())

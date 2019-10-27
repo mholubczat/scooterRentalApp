@@ -2,7 +2,6 @@ package com.example.scooterRentalApp.controller;
 
         import com.example.scooterRentalApp.api.BasicResponse;
         import com.example.scooterRentalApp.service.RentalService;
-        import com.example.scooterRentalApp.service.ReturnService;
         import org.springframework.http.ResponseEntity;
         import org.springframework.web.bind.annotation.*;
 
@@ -11,11 +10,10 @@ package com.example.scooterRentalApp.controller;
 public class RentalController {
 
     private RentalService rentalService;
-    private ReturnService returnService;
 
-    public RentalController(RentalService rentalService, ReturnService returnService) {
+
+    public RentalController(RentalService rentalService) {
         this.rentalService = rentalService;
-        this.returnService = returnService;
     }
 
     @PutMapping(value = "/{scooterId}/rent", produces = "application/json")
@@ -31,7 +29,7 @@ public class RentalController {
             @PathVariable Long dockId,
             @RequestParam Long accountId
     ) {
-        return returnService.returnScooter(dockId, accountId);
+        return rentalService.returnScooter(dockId, accountId);
     }
 
 }

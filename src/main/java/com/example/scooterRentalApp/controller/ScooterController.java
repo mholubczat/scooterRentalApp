@@ -4,7 +4,6 @@ import com.example.scooterRentalApp.api.BasicResponse;
 import com.example.scooterRentalApp.api.request.AddScooterRequest;
 import com.example.scooterRentalApp.api.response.AddScooterResponse;
 import com.example.scooterRentalApp.service.ScooterService;
-import com.example.scooterRentalApp.service.UndockScooterService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,11 +12,11 @@ import org.springframework.web.bind.annotation.*;
 public class ScooterController {
 
     private ScooterService scooterService;
-    private UndockScooterService undockScooterService;
 
-    public ScooterController(ScooterService scooterService, UndockScooterService undockScooterService) {
+
+    public ScooterController(ScooterService scooterService) {
         this.scooterService = scooterService;
-        this.undockScooterService = undockScooterService;
+
     }
 
     @PostMapping(value = "/add", produces = "application/json")
@@ -31,6 +30,6 @@ public class ScooterController {
     public ResponseEntity<BasicResponse> undockScooter(
             @PathVariable Long scooterId
     ) {
-        return undockScooterService.undockScooter(scooterId);
+        return scooterService.undockScooter(scooterId);
     }
 }
