@@ -12,6 +12,7 @@ import com.example.scooterRentalApp.service.AbstractCommonService;
 import com.example.scooterRentalApp.service.UserAccountService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -31,6 +32,7 @@ public class UserAccountServiceImpl extends AbstractCommonService implements Use
     }
 
     @Override
+    @Transactional
     public ResponseEntity<CreateUserAccountResponse> createUserAccount(CreateUserAccountRequest request) {
         validateCreateAccountRequest(request);
         checkOwnerEmailAlreadyExist(request.getOwnerEmail());

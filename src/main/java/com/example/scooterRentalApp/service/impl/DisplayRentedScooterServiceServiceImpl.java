@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.example.scooterRentalApp.common.ValidationUtils.isUncorrectedEmail;
+
 @Service
 public class DisplayRentedScooterServiceServiceImpl extends AbstractCommonService implements DisplayRentedScooterService {
 
@@ -28,6 +30,9 @@ public class DisplayRentedScooterServiceServiceImpl extends AbstractCommonServic
     @Override
     @Transactional
     public ResponseEntity<BasicResponse> displayRentedScooter(String userEmail) {
+        if (isUncorrectedEmail(userEmail)) {
+            throw new CommonBadRequestException(msgSource.ERR002);
+        }
         UserAccount userAccount = extractUserAccountFromRepository(userEmail);
         if(userAccount.getScooter() == null){
             throw new CommonBadRequestException(msgSource.ERR014);

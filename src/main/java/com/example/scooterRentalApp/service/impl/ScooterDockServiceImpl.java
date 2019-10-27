@@ -9,6 +9,7 @@ import com.example.scooterRentalApp.service.AbstractCommonService;
 import com.example.scooterRentalApp.service.ScooterDockService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.Set;
@@ -24,6 +25,7 @@ public class ScooterDockServiceImpl extends AbstractCommonService implements Sco
     }
 
     @Override
+    @Transactional
     public ResponseEntity<Set<Scooter>> getAllDockScooters(Long scooterDockId) {
         Optional<ScooterDock> optionalScooterDock = scooterDockRepository.findById(scooterDockId);
         if (!optionalScooterDock.isPresent()) {
