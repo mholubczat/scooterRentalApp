@@ -1,22 +1,23 @@
 package com.example.scooterRentalApp.controller;
 
+import com.example.scooterRentalApp.api.BasicResponse;
 import com.example.scooterRentalApp.api.request.AddScooterRequest;
 import com.example.scooterRentalApp.api.response.AddScooterResponse;
 import com.example.scooterRentalApp.service.ScooterService;
+import com.example.scooterRentalApp.service.UndockScooterService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("scooter")
 public class ScooterController {
 
     private ScooterService scooterService;
+    private UndockScooterService undockScooterService;
 
-    public ScooterController(ScooterService scooterService) {
+    public ScooterController(ScooterService scooterService, UndockScooterService undockScooterService) {
         this.scooterService = scooterService;
+        this.undockScooterService = undockScooterService;
     }
 
     @PostMapping(value = "/add", produces = "application/json")
@@ -24,5 +25,12 @@ public class ScooterController {
             @RequestBody AddScooterRequest request
     ) {
         return scooterService.addScooter(request);
+    }
+
+    @PutMapping(value = "/{scooterId}", produces = "application/json")
+    public ResponseEntity<BasicResponse> undockScooter(
+            @PathVariable Long scooterId
+    ) {
+        return undockScooterService.undockScooter(scooterId);
     }
 }
