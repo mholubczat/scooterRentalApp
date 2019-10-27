@@ -61,5 +61,15 @@ public class Scooter {
     public void setUserAccount(UserAccount userAccount) {
         this.userAccount = userAccount;
     }
+
+    @Override
+    public String toString() {
+        return "Scooter{" +
+                "modelName='" + modelName + '\'' +
+                ", maxSpeed=" + maxSpeed +
+                ", rentalPrice=" + rentalPrice +
+
+                '}';
+    }
 }
 
