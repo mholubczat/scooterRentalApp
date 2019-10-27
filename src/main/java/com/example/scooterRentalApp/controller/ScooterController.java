@@ -27,7 +27,7 @@ public class ScooterController {
         return scooterService.addScooter(request);
     }
 
-    @PutMapping(value = "/{scooterId}", produces = "application/json")
+    @PutMapping(value = "/{scooterId}/undock", produces = "application/json")
     public ResponseEntity<BasicResponse> undockScooter(
             @PathVariable Long scooterId
     ) {

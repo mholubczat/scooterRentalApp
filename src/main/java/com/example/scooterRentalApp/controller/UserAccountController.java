@@ -55,14 +55,14 @@ public class UserAccountController {
         return displayRentedScooterService.displayRentedScooter(userEmail);
     }
 
-    @DeleteMapping(value = "/user", produces = "application/json")
+    @DeleteMapping(value = "/remove", produces = "application/json")
     public ResponseEntity<BasicResponse> removeUser(
             @RequestParam String userEmail
     ) {
         return removeAccountService.removeAccount(userEmail);
     }
 
-    @PutMapping(value = "/{userId}", produces = "application/json")
+    @PutMapping(value = "/{userId}/update", produces = "application/json")
     public ResponseEntity<BasicResponse> updateEmail(
             @PathVariable Long userId,
             @RequestParam String userEmail
