@@ -1,26 +1,26 @@
 package com.example.scooterRentalApp.service.impl;
 
 import com.example.scooterRentalApp.api.BasicResponse;
+import com.example.scooterRentalApp.api.response.DisplayRentedScooterResponse;
 import com.example.scooterRentalApp.common.MsgSource;
 import com.example.scooterRentalApp.exception.CommonBadRequestException;
 import com.example.scooterRentalApp.exception.CommonConflictException;
 import com.example.scooterRentalApp.model.UserAccount;
 import com.example.scooterRentalApp.repository.UserAccountRepository;
 import com.example.scooterRentalApp.service.AbstractCommonService;
-import com.example.scooterRentalApp.service.DisplayRentedScooter;
+import com.example.scooterRentalApp.service.DisplayRentedScooterService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class DisplayRentedScooterImpl extends AbstractCommonService implements DisplayRentedScooter {
+public class DisplayRentedScooterServiceServiceImpl extends AbstractCommonService implements DisplayRentedScooterService {
 
     private UserAccountRepository userAccountRepository;
 
-    public DisplayRentedScooterImpl(MsgSource msgSource, UserAccountRepository userAccountRepository) {
+    public DisplayRentedScooterServiceServiceImpl(MsgSource msgSource, UserAccountRepository userAccountRepository) {
         super(msgSource);
         this.userAccountRepository = userAccountRepository;
     }
@@ -32,7 +32,7 @@ public class DisplayRentedScooterImpl extends AbstractCommonService implements D
         if(userAccount.getScooter() == null){
             throw new CommonBadRequestException(msgSource.ERR014);
         }
-        return ResponseEntity.ok(BasicResponse.of(userAccount.getScooter().toString()));
+        return ResponseEntity.ok(new DisplayRentedScooterResponse(msgSource.OK007, userAccount.getScooter()));
     }
 
     private UserAccount extractUserAccountFromRepository(String userEmail) {
