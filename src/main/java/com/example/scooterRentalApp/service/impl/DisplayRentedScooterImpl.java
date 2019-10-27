@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,20 +27,20 @@ public class DisplayRentedScooterImpl extends AbstractCommonService implements D
 
     @Override
     @Transactional
-    public ResponseEntity<BasicResponse> displayRentedScooter(Long accountId) {
-        UserAccount userAccount = extractUserAccountFromRepository(accountId);
+    public ResponseEntity<BasicResponse> displayRentedScooter(String userEmail) {
+        UserAccount userAccount = extractUserAccountFromRepository(userEmail);
         if(userAccount.getScooter() == null){
             throw new CommonBadRequestException(msgSource.ERR014);
         }
         return ResponseEntity.ok(BasicResponse.of(userAccount.getScooter().toString()));
     }
 
-    private UserAccount extractUserAccountFromRepository(Long accountId) {
-        Optional<UserAccount> optionalUserAccount = userAccountRepository.findById(accountId);
-        if (!optionalUserAccount.isPresent()) {
+    private UserAccount extractUserAccountFromRepository(String userEmail) {
+        List<UserAccount> userAccounts = userAccountRepository.findByOwnerEmail(userEmail);
+        if (userAccounts.isEmpty()) {
             throw new CommonConflictException(msgSource.ERR006);
         }
-        return optionalUserAccount.get();
+        return userAccounts.get(0);
     }
 
 }

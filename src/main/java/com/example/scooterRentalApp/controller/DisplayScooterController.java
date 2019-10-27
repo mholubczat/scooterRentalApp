@@ -3,10 +3,7 @@ package com.example.scooterRentalApp.controller;
 import com.example.scooterRentalApp.api.BasicResponse;
 import com.example.scooterRentalApp.service.DisplayRentedScooter;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("display")
@@ -17,11 +14,11 @@ public class DisplayScooterController {
         this.displayRentedScooter = displayRentedScooter;
     }
 
-    @GetMapping(value="/{userId}", produces = "application/json")
+    @GetMapping(value="", produces = "application/json")
     public ResponseEntity<BasicResponse> displayScooter(
-            @PathVariable Long userId
+            @RequestParam String userEmail
     ){
-        return displayRentedScooter.displayRentedScooter(userId);
+        return displayRentedScooter.displayRentedScooter(userEmail);
     }
 
 }
