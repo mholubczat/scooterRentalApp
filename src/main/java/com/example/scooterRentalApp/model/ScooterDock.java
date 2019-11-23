@@ -15,6 +15,16 @@ public class ScooterDock {
     @OneToMany(mappedBy = "scooterDock", cascade = CascadeType.ALL)
     private Set<Scooter> scooters;
 
+    public ScooterDock() {
+    }
+
+    public ScooterDock(Long id, Integer availablePlace, String dockName, Set<Scooter> scooters) {
+        this.id = id;
+        this.dockName = dockName;
+        this.availablePlace = availablePlace;
+        this.scooters = scooters;
+    }
+
     @Override
     public String toString() {
         return "ScooterDock{" +

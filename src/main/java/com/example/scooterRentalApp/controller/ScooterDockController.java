@@ -1,12 +1,11 @@
 package com.example.scooterRentalApp.controller;
 
+import com.example.scooterRentalApp.api.request.CreateDockRequest;
+import com.example.scooterRentalApp.api.response.CreateDockResponse;
 import com.example.scooterRentalApp.model.Scooter;
 import com.example.scooterRentalApp.service.ScooterDockService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
@@ -25,6 +24,13 @@ public class ScooterDockController {
             @PathVariable Long scooterDockId
     ) {
         return scooterDockService.getAllDockScooters(scooterDockId);
+    }
+
+    @PostMapping(value = "/add", produces = "application/json")
+    public ResponseEntity<CreateDockResponse> addDockService(
+        @RequestBody CreateDockRequest request
+    ){
+        return scooterDockService.createScooterDock(request);
     }
 
 }

@@ -26,12 +26,12 @@ public class UserAccountController {
         return userAccountService.createUserAccount(request);
     }
 
-    @PutMapping(value = "/{accountId}/recharge", produces = "application/json")
+    @PutMapping(value = "/{userId}/recharge", produces = "application/json")
     public ResponseEntity<BasicResponse> rechargeUserAccount(
-            @PathVariable Long accountId,
+            @PathVariable Long userId,
             @RequestParam String amount
     ) {
-        return userAccountService.rechargeUserAccount(accountId, amount);
+        return userAccountService.rechargeUserAccount(userId, amount);
     }
 
     @GetMapping(value="/{userId}/balance", produces = "application/json")
@@ -55,7 +55,7 @@ public class UserAccountController {
         return userAccountService.removeAccount(userEmail);
     }
 
-    @PutMapping(value = "/{userId}/update", produces = "application/json")
+    @PutMapping(value = "/{userId}/updateEmail", produces = "application/json")
     public ResponseEntity<BasicResponse> updateEmail(
             @PathVariable Long userId,
             @RequestParam String userEmail
