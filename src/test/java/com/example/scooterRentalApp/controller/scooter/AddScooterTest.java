@@ -50,7 +50,7 @@ class AddScooterTest {
                                 )
                 )
                 .andExpect(status().isOk())
-                .andExpect(content().string(Matchers.containsString("Poprawnie dodano hulajnogę do systemu.")))
+                .andExpect(content().string(Matchers.containsString("Poprawnie dodano")))
                 .andExpect(content().string(Matchers.containsString("scooterId")))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();

@@ -100,7 +100,7 @@ class UserAccountControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().is(200))
-                .andExpect(content().string(Matchers.containsString("Poprawnie utworzono konto użytkownika.")))
+                .andExpect(content().string(Matchers.containsString("Poprawnie utworzono")))
                 .andExpect(content().string(Matchers.containsString("accountId")))
                 .andReturn();
 
