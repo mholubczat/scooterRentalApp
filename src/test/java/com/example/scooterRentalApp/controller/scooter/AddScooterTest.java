@@ -108,9 +108,9 @@ public class AddScooterTest {
                 )
                 .andExpect(status().is(400))
                 .andDo(MockMvcResultHandlers.print())
-               // .andExpect(content().string(Matchers.containsString("JSON parse error")))
-             // .andExpect(content().string(Matchers.containsString("Bad Request")
-                ;
+        // .andExpect(content().string(Matchers.containsString("JSON parse error")))
+        // .andExpect(content().string(Matchers.containsString("Bad Request")
+        ;
 
     }
 
@@ -164,6 +164,7 @@ public class AddScooterTest {
                                 "}"
                 ));
     }
+
     @Test
     public void ifAddScooterToFullDock() throws Exception {
         mockMvc

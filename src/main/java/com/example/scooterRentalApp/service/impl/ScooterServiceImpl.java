@@ -50,7 +50,7 @@ public class ScooterServiceImpl extends AbstractCommonService implements Scooter
     @Transactional
     public ResponseEntity<BasicResponse> undockScooter(Long scooterId) {
         Scooter scooter = extractScooterFromRepository(scooterId);
-        checkScooterIsRented(scooter);
+        checkScooterIsRentedOrUndocked(scooter);
         scooter.setScooterDock(null);
         scooterRepository.save(scooter);
         return ResponseEntity.ok(BasicResponse.of(msgSource.OK010));
@@ -63,8 +63,8 @@ public class ScooterServiceImpl extends AbstractCommonService implements Scooter
         return optionalScooter.get();
     }
 
-    private void checkScooterIsRented(Scooter scooter) {
-        if (scooter.getUserAccount() != null) {
+    private void checkScooterIsRentedOrUndocked(Scooter scooter) {
+        if (scooter.getScooterDock() == null) {
             throw new CommonConflictException(msgSource.ERR015);
         }
     }
