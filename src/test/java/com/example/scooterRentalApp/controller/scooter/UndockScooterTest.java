@@ -1,5 +1,6 @@
 package com.example.scooterRentalApp.controller.scooter;
 
+import com.example.scooterRentalApp.model.Scooter;
 import com.example.scooterRentalApp.repository.ScooterRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -35,7 +36,7 @@ public class UndockScooterTest {
                         "    \"responseMsg\": \"Poprawnie usunięto hulajnogę ze stacji.\",\n" +
                         "    \"status\": \"SUCCESS\"\n" +
                         "}"));
-        Assert.assertNull(scooterRepository.findById(7L).get().getScooterDock());
+        scooterRepository.findById(7L).ifPresent(scooter -> Assert.assertNull(scooter.getScooterDock()));
     }
 
     @Test
@@ -54,9 +55,9 @@ public class UndockScooterTest {
     @Test
     public void undockRentScooter() throws Exception {
         mockMvc
-                .perform(put("/rental/{scooterId}/rent",7).param("accountId","16"));
+                .perform(put("/rental/{scooterId}/rent",6).param("accountId","16"));
         mockMvc
-                .perform(put("/scooter/{scooterId}/undock", 7))
+                .perform(put("/scooter/{scooterId}/undock", 6))
                 .andExpect(status().is(409))
                 .andExpect(content().json(
                         "{\"errorCode\":\"ERR015\",\"errorMsg\":\"Ta hulajnoga nie jest zadokowana.\",\"status\":\"ERROR\"}"
@@ -67,9 +68,9 @@ public class UndockScooterTest {
     @Test
     public void undockUndockedScooter() throws Exception {
         mockMvc
-                .perform(put("/scooter/{scooterId}/undock", 7));
+                .perform(put("/scooter/{scooterId}/undock", 9));
         mockMvc
-                .perform(put("/scooter/{scooterId}/undock", 7))
+                .perform(put("/scooter/{scooterId}/undock", 9))
                 .andExpect(status().is(409))
                 .andExpect(content().json(
                         "{\"errorCode\":\"ERR015\",\"errorMsg\":\"Ta hulajnoga nie jest zadokowana.\",\"status\":\"ERROR\"}"

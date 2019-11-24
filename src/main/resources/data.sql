@@ -20,7 +20,8 @@ insert into public.scooter(id, max_speed, model_name, rental_price, scooter_dock
 insert into public.user_account(id, owner_email, owner_username, owner_age, balance, created_date) VALUES
      (16, 'anna-24@tlen.pl', 'anna-24', 24, 78.34, '2019-10-27'),
      (17, 'jan.kowalski@gmail.com', 'jan.kowalski', 78, 15.55, '2019-10-08'),
-     (18, 'dawid55@gmail.com', 'dawid55', 32, 0, '2019-01-01');
+     (18, 'dawid55@gmail.com', 'dawid55', 32, 0, '2019-01-01'),
+     (19, 'dawidek55@gmail.com', 'dawidek55', 32, 1000, '2019-01-01');
 
-select setval('public.hibernate_sequence', 18, true);
+select setval('public.hibernate_sequence', 19, true);
 
