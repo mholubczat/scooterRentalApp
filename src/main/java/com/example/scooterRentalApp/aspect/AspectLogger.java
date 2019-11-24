@@ -1,4 +1,4 @@
-package com.example.scooterRentalApp.aspect;
+/*package com.example.scooterRentalApp.aspect;
 
 
 import org.aspectj.lang.annotation.Aspect;
@@ -9,10 +9,11 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class AspectLogger{
 
-    @Before("@within(org.springframework.transaction.annotation.Transactional)")
-    public void rentScooterAdvice(){
+    @Before("@within(com.example.scooterRentalApp.service.impl.RentalServiceImpl(*))")
+    public void aVoid(){
         System.out.println("asd");
     }
 
 
 }
+*/

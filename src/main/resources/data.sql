@@ -22,5 +22,5 @@ insert into public.user_account(id, owner_email, owner_username, owner_age, bala
      (17, 'jan.kowalski@gmail.com', 'jan.kowalski', 78, 15.55, '2019-10-08'),
      (18, 'dawid55@gmail.com', 'dawid55', 32, 0, '2019-01-01');
 
-select setval('public.hibernate_sequence', 15, true);
+select setval('public.hibernate_sequence', 18, true);
 
