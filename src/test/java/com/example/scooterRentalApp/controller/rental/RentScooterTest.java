@@ -1,31 +1,27 @@
 package com.example.scooterRentalApp.controller.rental;
 
-import com.example.scooterRentalApp.model.UserAccount;
 import com.example.scooterRentalApp.repository.ScooterRepository;
 import com.example.scooterRentalApp.repository.UserAccountRepository;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-
-import javax.validation.constraints.AssertTrue;
 
 import java.math.BigDecimal;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class RentScooterTest {
+class RentScooterTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -37,31 +33,31 @@ public class RentScooterTest {
     private ScooterRepository scooterRepository;
 
     @Test
-    public void rentalSuccessful() throws Exception {
+    void rentalSuccessful() throws Exception {
         BigDecimal initBalance = userAccountRepository.findById(19L).get().getBalance();
         mockMvc
                 .perform(put("/rental/{scooterId}/rent", 5).param("accountId", "19"))
                 .andExpect(status().isOk());
-        userAccountRepository.findById(19L).ifPresent(userAccount -> Assert.assertEquals(5L, (long) userAccount.getScooter().getId()));
-        userAccountRepository.findById(19L).ifPresent(userAccount -> Assert.assertNotEquals(userAccount.getBalance(), initBalance));
+        userAccountRepository.findById(19L).ifPresent(userAccount -> assertEquals(5L, (long) userAccount.getScooter().getId()));
+        userAccountRepository.findById(19L).ifPresent(userAccount -> assertNotEquals(userAccount.getBalance(), initBalance));
     }
 
     @Test
-    public void scooterNotAvailableToRent() throws Exception {
+    void scooterNotAvailableToRent() throws Exception {
         mockMvc
                 .perform(put("/scooter/{scooterId}/undock", 6));
         mockMvc
                 .perform(put("/rental/{scooterId}/rent", 6).param("accountId", "17"))
                 .andExpect(status().is(409))
                 .andExpect(content().json("{\n" +
-                "    \"errorCode\": \"ERR011\",\n" +
-                "    \"errorMsg\": \"Hulajnoga o podanym id nie jest dostępna do wypożyczenia.\",\n" +
-                "    \"status\": \"ERROR\"\n" +
-                "}"));
+                        "    \"errorCode\": \"ERR011\",\n" +
+                        "    \"errorMsg\": \"Hulajnoga o podanym id nie jest dostępna do wypożyczenia.\",\n" +
+                        "    \"status\": \"ERROR\"\n" +
+                        "}"));
     }
 
     @Test
-    public void userAlreadyRents() throws Exception {
+    void userAlreadyRents() throws Exception {
         mockMvc
                 .perform(put("/rental/{scooterId}/rent", 7).param("accountId", "16"));
         mockMvc
@@ -71,7 +67,7 @@ public class RentScooterTest {
     }
 
     @Test
-    public void insufficientFundsToRent() throws Exception {
+    void insufficientFundsToRent() throws Exception {
 
         mockMvc
                 .perform(put("/rental/{scooterId}/rent", 10).param("accountId", "18"))

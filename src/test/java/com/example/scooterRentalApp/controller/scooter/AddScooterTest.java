@@ -1,35 +1,32 @@
 package com.example.scooterRentalApp.controller.scooter;
 
 import com.example.scooterRentalApp.api.response.AddScooterResponse;
-import com.example.scooterRentalApp.api.response.CreateUserAccountResponse;
 import com.example.scooterRentalApp.model.Scooter;
-import com.example.scooterRentalApp.model.UserAccount;
 import com.example.scooterRentalApp.repository.ScooterRepository;
-import com.example.scooterRentalApp.repository.UserAccountRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class AddScooterTest {
+class AddScooterTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -38,7 +35,7 @@ public class AddScooterTest {
     private ScooterRepository scooterRepository;
 
     @Test
-    public void ifAddScooterIsCorrect() throws Exception {
+    void ifAddScooterIsCorrect() throws Exception {
         MvcResult mvcResult = mockMvc
                 .perform(
                         post("/scooter/add")
@@ -64,11 +61,11 @@ public class AddScooterTest {
                 AddScooterResponse.class
         );
         Optional<Scooter> optionalScooter = scooterRepository.findById(response.getScooterId());
-        Assert.assertTrue(optionalScooter.isPresent());
+        assertTrue(optionalScooter.isPresent());
     }
 
     @Test
-    public void ifAddRequestIncomplete() throws Exception {
+    void ifAddRequestIncomplete() throws Exception {
         mockMvc
                 .perform(
                         post("/scooter/add")
@@ -92,7 +89,7 @@ public class AddScooterTest {
     }
 
     @Test
-    public void ifAddRequestBadJson() throws Exception {
+    void ifAddRequestBadJson() throws Exception {
         mockMvc
                 .perform(
                         post("/scooter/add")
@@ -116,7 +113,7 @@ public class AddScooterTest {
 
 
     @Test
-    public void ifAddScooterMaxSpeedExceeded() throws Exception {
+    void ifAddScooterMaxSpeedExceeded() throws Exception {
         mockMvc
                 .perform(
                         post("/scooter/add")
@@ -141,7 +138,7 @@ public class AddScooterTest {
     }
 
     @Test
-    public void ifAddScooterToInvalidDock() throws Exception {
+    void ifAddScooterToInvalidDock() throws Exception {
         mockMvc
                 .perform(
                         post("/scooter/add")
@@ -166,7 +163,7 @@ public class AddScooterTest {
     }
 
     @Test
-    public void ifAddScooterToFullDock() throws Exception {
+    void ifAddScooterToFullDock() throws Exception {
         mockMvc
                 .perform(
                         post("/scooter/add")

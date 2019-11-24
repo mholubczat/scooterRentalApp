@@ -5,29 +5,28 @@ import com.example.scooterRentalApp.model.UserAccount;
 import com.example.scooterRentalApp.repository.UserAccountRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserAccountControllerTest {
+class UserAccountControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -36,7 +35,7 @@ public class UserAccountControllerTest {
     private UserAccountRepository userAccountRepository;
 
     @Test
-    public void ifCreateAccountRequestContainsWrongEmailAddressShouldReturnHttpCode400AndErrorMsg() throws Exception {
+    void ifCreateAccountRequestContainsWrongEmailAddressShouldReturnHttpCode400AndErrorMsg() throws Exception {
         mockMvc
                 .perform(
                         post("/user-account/create")
@@ -62,7 +61,7 @@ public class UserAccountControllerTest {
     }
 
     @Test
-    public void ifCreateAccountRequestContainsWrongAgeShouldReturnHttpCode409AndErrorMsg() throws Exception {
+    void ifCreateAccountRequestContainsWrongAgeShouldReturnHttpCode409AndErrorMsg() throws Exception {
         mockMvc
                 .perform(
                         post("/user-account/create")
@@ -87,7 +86,7 @@ public class UserAccountControllerTest {
     }
 
     @Test
-    public void ifCreateAccountRequestContainsCorrectDataShouldReturnHttpCode200AndCreateAccount() throws Exception {
+    void ifCreateAccountRequestContainsCorrectDataShouldReturnHttpCode200AndCreateAccount() throws Exception {
         MvcResult mvcResult = mockMvc
                 .perform(
                         post("/user-account/create")
@@ -111,11 +110,11 @@ public class UserAccountControllerTest {
                 CreateUserAccountResponse.class
         );
         Optional<UserAccount> optionalUserAccount = userAccountRepository.findById(response.getAccountId());
-        Assert.assertTrue(optionalUserAccount.isPresent());
+        assertTrue(optionalUserAccount.isPresent());
     }
 
     @Test
-    public void ifCreateAccountRequestContainsAlreadyRegisterEmailShouldReturnHttpCode409AndError() throws Exception {
+    void ifCreateAccountRequestContainsAlreadyRegisterEmailShouldReturnHttpCode409AndError() throws Exception {
         mockMvc
                 .perform(
                         post("/user-account/create")

@@ -1,10 +1,13 @@
 package com.example.scooterRentalApp.controller;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -12,16 +15,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ScooterDockControllerTest {
+class ScooterDockControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void ifGetScootersRequestContainsDockIdWhichNotExistShouldReturnHttpCode409AndError() throws Exception {
+    void ifGetScootersRequestContainsDockIdWhichNotExistShouldReturnHttpCode409AndError() throws Exception {
         mockMvc
                 .perform(get("/scooter-dock/{scooterDockId}/scooters", 9999))
                 .andExpect(status().is(409))
@@ -33,7 +36,7 @@ public class ScooterDockControllerTest {
     }
 
     @Test
-    public void ifGetScootersRequestIsCorrectShouldReturnHttpCode200AndInitialScooterList() throws Exception {
+    void ifGetScootersRequestIsCorrectShouldReturnHttpCode200AndInitialScooterList() throws Exception {
         mockMvc
                 .perform(get("/scooter-dock/{scooterDockId}/scooters", 1))
                 .andExpect(status().is(200))

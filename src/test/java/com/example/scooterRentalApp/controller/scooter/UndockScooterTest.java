@@ -1,25 +1,25 @@
 package com.example.scooterRentalApp.controller.scooter;
 
-import com.example.scooterRentalApp.model.Scooter;
 import com.example.scooterRentalApp.repository.ScooterRepository;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UndockScooterTest {
+class UndockScooterTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -28,7 +28,7 @@ public class UndockScooterTest {
     private ScooterRepository scooterRepository;
 
     @Test
-    public void undockSuccessful() throws Exception {
+    void undockSuccessful() throws Exception {
         mockMvc
                 .perform(put("/scooter/{scooterId}/undock", 7))
                 .andExpect(status().isOk())
@@ -36,11 +36,11 @@ public class UndockScooterTest {
                         "    \"responseMsg\": \"Poprawnie usunięto hulajnogę ze stacji.\",\n" +
                         "    \"status\": \"SUCCESS\"\n" +
                         "}"));
-        scooterRepository.findById(7L).ifPresent(scooter -> Assert.assertNull(scooter.getScooterDock()));
+        scooterRepository.findById(7L).ifPresent(scooter -> assertNull(scooter.getScooterDock()));
     }
 
     @Test
-    public void undockNotExistingScooter() throws Exception {
+    void undockNotExistingScooter() throws Exception {
         mockMvc
                 .perform(put("/scooter/{scooterId}/undock", 666))
                 .andExpect(status().is(409))
@@ -53,7 +53,7 @@ public class UndockScooterTest {
                 ));
     }
     @Test
-    public void undockRentScooter() throws Exception {
+    void undockRentScooter() throws Exception {
         mockMvc
                 .perform(put("/rental/{scooterId}/rent",6).param("accountId","16"));
         mockMvc
@@ -66,7 +66,7 @@ public class UndockScooterTest {
     }
 
     @Test
-    public void undockUndockedScooter() throws Exception {
+    void undockUndockedScooter() throws Exception {
         mockMvc
                 .perform(put("/scooter/{scooterId}/undock", 9));
         mockMvc
